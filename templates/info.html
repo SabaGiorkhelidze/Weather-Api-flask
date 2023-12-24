@@ -41,7 +41,9 @@
   <section>
     <h2>7-Day Forecast</h2>
     {% for date, daily_forecast in seven_day_forecast.items() %}
-    <h3>Date: {{ date }}</h3>
+
+    <div>Date: {{ date.strftime('%Y-%m-%d') }}</div>
+     
     <div class="table-responsive">
       <table class="table table-bordered table-striped">
         <thead>
