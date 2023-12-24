@@ -3,13 +3,19 @@ from models import db, WeatherData
 import requests
 from collections import defaultdict
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+import os
+
+
+load_dotenv()
+api_key = os.getenv("API_KEY")
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///weather_data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
-api_key = '8c59fc25cdbade9a29d0957745f34863'
+
 blue_color = '\033[94m'
 
 

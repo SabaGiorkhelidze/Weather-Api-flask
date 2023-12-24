@@ -35,7 +35,9 @@
     <p>Description: {{ weather_data.description }}</p>
     <p>Temperature: {{ weather_data.temperature }}°C</p>
   </section>
-  {% endif %} {% if seven_day_forecast %}
+  {% endif %} 
+  
+  {% if seven_day_forecast %}
   <section>
     <h2>7-Day Forecast</h2>
     {% for date, daily_forecast in seven_day_forecast.items() %}
