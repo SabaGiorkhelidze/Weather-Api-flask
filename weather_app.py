@@ -79,9 +79,9 @@ def get_hail_chance(city_name, api_key):
     return None
 
 
-@app.route('/')
-def home():
-    return render_template('home.html')
+# @app.route('/')
+# def home():
+#     return render_template('home.html')
 
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -104,7 +104,7 @@ def registration():
 def registration_success():
     return render_template('registration_success.html')
 
-
+@app.route('/')
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
