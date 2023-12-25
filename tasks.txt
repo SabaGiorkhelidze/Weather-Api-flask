@@ -1,0 +1,10 @@
+db
+---add better model, with auth, password hash and unique
+
+app
+---add better routes, refactor api code and write better routing sistem
+--add default routing weather fetching
+
+
+front
+---more beautiful styles

@@ -3,15 +3,16 @@
 
 <div class="d-flex justify-content-center align-items-center flex-column" style="min-height: 100vh;">
     <h1>Login</h1>
-  <form class="col-md-6">
+  <form class="col-md-6" method="POST" action="/login">
     <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <label for="exampleInputUsername" class="form-label">Username</label>
       <input
-        type="email"
+        type="text"
         class="form-control"
         id="exampleInputEmail1"
-        aria-describedby="emailHelp"
-        placeholder="Enter email"
+        name='username'
+        aria-describedby="UsernameHelp"
+        placeholder="Enter username"
       />
       
     </div>
@@ -20,6 +21,7 @@
       <input
         type="password"
         class="form-control"
+        name='password'
         id="exampleInputPassword1"
         placeholder="Password"
       />

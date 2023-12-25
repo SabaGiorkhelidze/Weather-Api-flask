@@ -5,7 +5,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import os
-
+from flask_sqlalchemy import SQLAlchemy
 
 load_dotenv()
 api_key = os.getenv("API_KEY")
@@ -13,7 +13,7 @@ api_key = os.getenv("API_KEY")
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///User.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db.init_app(app)
+db = SQLAlchemy(app)
 
 
 blue_color = '\033[94m'
@@ -105,7 +105,12 @@ def registration_success():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
-        pass
+        username = request.form['username']
+        password = request.form['password']
+        
+        user = User.query.filter_by(username=username).first()
+        if user:
+            return redirect(url_for('info'))
     
     return render_template('login.html')
 
