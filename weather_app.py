@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for
-from models import db, WeatherData
+from models import User, db
 import requests
 from collections import defaultdict
 from datetime import datetime, timedelta
@@ -11,7 +11,7 @@ load_dotenv()
 api_key = os.getenv("API_KEY")
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///weather_data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///User.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
@@ -87,6 +87,11 @@ def registration():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        
+        data = User(username=username, password=password)
+        db.session.add(data)
+        db.session.commit()
+        
         return redirect(url_for('registration_success'))
 
     return render_template('registration.html')
@@ -99,6 +104,9 @@ def registration_success():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+    if request.method == 'POST':
+        pass
+    
     return render_template('login.html')
 
 
@@ -108,13 +116,13 @@ def info():
         city_name = request.form.get('city_name', '')
         data_type = request.form['data_type']
 
-        if city_name:
-            weather_data_entry = WeatherData(
-                city_name=city_name, data_type=data_type)
-            db.session.add(weather_data_entry)
-            db.session.commit()
+        # if city_name:
+        #     weather_data_entry = WeatherData(
+        #         city_name=city_name, data_type=data_type)
+        #     db.session.add(weather_data_entry)
+        #     db.session.commit()
 
-            if data_type == 'current_weather':
+        if data_type == 'current_weather':
                 temperature, description = get_current_weather(
                     city_name, api_key)
                 if temperature is not None and description is not None:
@@ -127,7 +135,7 @@ def info():
                     error_message = "Weather data not available."
                     return render_template('info.html', error_message=error_message)
 
-            elif data_type == '7_day_forecast':
+        elif data_type == '7_day_forecast':
                 seven_day_forecast = get_7_day_forecast(city_name, api_key)
                 if seven_day_forecast:
                     return render_template('info.html', seven_day_forecast=seven_day_forecast)
@@ -135,7 +143,7 @@ def info():
                     error_message = "7-Day forecast not available."
                     return render_template('info.html', error_message=error_message)
 
-            elif data_type == 'hail_chance':
+        elif data_type == 'hail_chance':
                 hail_chance = get_hail_chance(city_name, api_key)
                 if hail_chance is not None:
                     return render_template('info.html', hail_chance=hail_chance)
@@ -152,6 +160,6 @@ def info():
 
 if __name__ == '__main__':
     with app.app_context():
-        # db.create_all()
-        pass
+        db.create_all()
+        # pass
     app.run(debug=True)
