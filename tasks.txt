@@ -4,6 +4,7 @@ db
 app
 ---add better routes, refactor api code and write better routing sistem
 --add default routing weather fetching
+---orginize file structure
 
 
 front

@@ -1,22 +1,25 @@
 from flask import Flask, request, render_template, redirect, url_for
-from models import User, db
+from models import db
 import requests
 from collections import defaultdict
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import os
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
+
+
 
 load_dotenv()
 api_key = os.getenv("API_KEY")
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///User.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
+db.init_app(app)
 
 blue_color = '\033[94m'
+
+from models import User
 
 
 def get_current_weather(city_name, api_key):
